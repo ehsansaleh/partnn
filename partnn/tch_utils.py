@@ -579,6 +579,15 @@ def test_srtalgnidxs():
     assert torch.allclose(wass_ref, wass_pred1 + wass_pred2)
 
 
+def torch_unique(x, dim=0):
+    unique, inverse, counts = torch.unique(x, dim=dim,
+        sorted=True, return_inverse=True, return_counts=True)
+    inv_sorted = inverse.argsort(stable=True)
+    tot_counts = torch.cat((counts.new_zeros(1), counts.cumsum(dim=0)))[:-1]
+    index = inv_sorted[tot_counts]
+    return unique, inverse, counts, index
+
+
 def torch_slice(tensor, dim, slc):
     return tensor[(dim if dim >= 0 else dim + tensor.dim()) * (slice(None), ) + (slc, )]
 
@@ -939,7 +948,7 @@ class BatchRNG:
             rng.set_state(rs)
         self.was_seeded = True
 
-    def __call__(self, gen, sample_shape):
+    def __call__(self, gen, *sample_shape):
         assert self.lib == 'torch'
         sample_shape_rightmost = sample_shape[self.shape_len:]
         random_vars = []
@@ -3481,6 +3490,13 @@ class ConfigModule(nn.Module):
                     type of input "{type(layer_input)}" was provided:
                         layer_input = {layer_input}'''))
 
+            # TODO: This needs improvement.
+            # This is a message-passing interface to the reshape layer to help it
+            # know its proper output shape.
+            if layer_type == 'reshape':
+                layer_oshapeeval = module_shapechecker.eval(layer_shape)
+                layer_module.set_oshapeeval(layer_oshapeeval)
+
             #####################################
             ######### Layer Forward Call ########
             #####################################
@@ -4038,15 +4054,20 @@ class FunctionalLayer(nn.Module):
         super().__init__()
         self.layer_type = layer_type
         self.layer_opts = layer_opts if layer_opts is not None else dict()
+        self.oshape_eval = None
 
         tchnnfuncs = {f'nn.functional.{ltyp}' for ltyp in self.torch_nn_functionals}
         assert ((layer_type in self.torch_functions) or
             (layer_type in tchnnfuncs)), dedent(f'''
                 The "{layer_type}" layer is not a torch function.''')
 
+    def set_oshapeeval(self, oshape_eval):
+        self.oshape_eval = oshape_eval
+
     def forward(self, *args, **kwargs):
         layer_type = self.layer_type
         layer_opts = dict(self.layer_opts)
+        self_oshapeeval = self.oshape_eval
 
         for i_arg, arg in enumerate(args):
             assert torch.is_tensor(arg), dedent(f'''
@@ -4076,26 +4097,29 @@ class FunctionalLayer(nn.Module):
                 all_argvals = list(args) + list(kwargs.values())
                 all_argkeys = [str(i) for i, arg in enumerate(args)] + list(kwargs.keys())
 
-                ishape = layer_opts.pop('ishape')
-                oshape = layer_opts.pop('oshape')
+                if self_oshapeeval is None:
+                    ishape = layer_opts.pop('ishape')
+                    oshape = layer_opts.pop('oshape')
 
-                # Making sure no options were left unused
-                if len(layer_opts) > 0:
-                    raise ValueError(dedent(f'''
-                        Some options were left unused. Make sure you do not specify these, 
-                        or specify them in a proper manner: 
-                            unused options = {layer_opts}'''))
+                    # Making sure no options were left unused
+                    if len(layer_opts) > 0:
+                        raise ValueError(dedent(f'''
+                            Some options were left unused. Make sure you do not specify these,
+                            or specify them in a proper manner:
+                                unused options = {layer_opts}'''))
 
-                assert n_args == 1, dedent(f'''
-                    The reshape layer should take a single argument. 
-                    However, {n_args} arguments were provided:
-                        args = {args}
-                        kwargs = {kwargs}''')
+                    assert n_args == 1, dedent(f'''
+                        The reshape layer should take a single argument.
+                        However, {n_args} arguments were provided:
+                            args = {args}
+                            kwargs = {kwargs}''')
 
-                shpchecker = ShapeChecker()
-                shpchecker.append(ishape, dict(zip(all_argkeys, all_argvals)))
-                shpchecker.check()
-                oshape_eval = shpchecker.eval(oshape)
+                    shpchecker = ShapeChecker()
+                    shpchecker.append(ishape, dict(zip(all_argkeys, all_argvals)))
+                    shpchecker.check()
+                    oshape_eval = shpchecker.eval(oshape)
+                else:
+                    oshape_eval = self_oshapeeval
 
                 output = all_argvals[0].reshape(*oshape_eval)                
             elif layer_type.startswith('nn.functional.'):

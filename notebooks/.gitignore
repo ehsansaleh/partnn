@@ -1,1 +1,4 @@
 n[0-9][0-9]_*.py
+!n08_utils.py
+!n20_utils.py
+!n22_utils.py

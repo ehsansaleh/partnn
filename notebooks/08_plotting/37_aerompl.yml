@@ -1054,6 +1054,15 @@ sm_relerrhist:
   colorspec/ref: colorspec
   colors/sm_relerr: blue
 
+sm_relerrhist.part: 
+  ref: sm_relerrhist
+  def:
+    ######## The x-Axis Parameters ########
+    xlim: [0.0, 1.0]
+    xticks/ticks: [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]
+    xticks/labels: ['0', '0.2', '0.4', '0.6', '0.8', '1']
+  
+
 ###########################################################
 ########### Summary Plots Across All Scenarios ############
 ###########################################################
@@ -1372,6 +1381,133 @@ frznfrac_sct1:
 frznfrac_sct2/ref: frznfrac_sct1
 
 frznfrac_sct3/ref: frznfrac_sct1
+
+ccn_errhist.part:
+  ref: ccn_errhist
+  def:
+    ######## The x-Axis Parameters ########
+    xlim: [-0.01, 0.21]
+    xticks/ticks: [0, 0.05, 0.1, 0.15, 0.2]
+    xticks/labels: ['0', '0.05', '0.1', '0.15', '0.2']
+
+    ######## The y-Axis Parameters ########
+    ylim: [0, 60]
+    yticks/ticks: [0, 10, 20, 30, 40, 50, 60]
+    yticks/labels: ['0', '10', '20', '30', '40', '50', '60']
+
+    ########## ax.hist Arguments ##########
+    ax.hist/range: [0, 0.2]
+
+qs_errhist.part:
+  ref: qs_errhist
+  def:
+
+    ######## The x-Axis Parameters ########
+    xlim: [-0.01, 0.21]
+    xticks/ticks: [0, 0.05, 0.1, 0.15, 0.2]
+    xticks/labels: ['0', '0.05', '0.1', '0.15', '0.2']
+
+    ######## The y-Axis Parameters ########
+    ylim: [0, 60]
+    yticks/ticks: [0, 10, 20, 30, 40, 50, 60]
+    yticks/labels: ['0', '10', '20', '30', '40', '50', '60']
+
+    ########## ax.hist Arguments ##########
+    ax.hist/range: [0, 0.2]
+
+qa_errhist.part/ref: qa_errhist
+
+logfrznfrac_errhist.part:
+  ref: logfrznfrac_errhist
+  def:
+    ######## The x-Axis Parameters ########
+    xlim: [-0.01, 0.21]
+    xticks/ticks: [0, 0.05, 0.1, 0.15, 0.2]
+    xticks/labels: ['0', '0.05', '0.1', '0.15', '0.2']
+
+    ######## The y-Axis Parameters ########
+    ylim: [0, 60]
+    yticks/ticks: [0, 10, 20, 30, 40, 50, 60]
+    yticks/labels: ['0', '10', '20', '30', '40', '50', '60']
+
+    ########## ax.hist Arguments ##########
+    ax.hist/range: [0, 0.2]
+
+
+mchmprthst_errhist.part:
+  ref: ccn_errhist
+  def:
+    ########## Figure Generation ##########
+    plt.subplots/nrows: 2
+    plt.subplots/ncols: 2
+    plt.subplots/axsize: [3.6, 2.3]
+
+    ######### Layout Adjustments #########
+    layout/layout: tight
+    layout/w_pad: 1.0
+    layout/h_pad: 0.5
+    layout/rect: [0.0, 0.0, 1.0, 1.0]
+
+    ######## The x-Axis Parameters ########
+    xlbl/xlabel: Speciated Mass Error
+    xlim: [-0.02, 1.02]
+    xticks/ticks: [0, 0.2, 0.4, 0.6, 0.8, 1]
+    xticks/labels: ['0', '0.2', '0.4', '0.6', '0.8', '1']
+
+    ######## The y-Axis Parameters ########
+    ylim: [0, 6]
+    ylbl/share: true
+    yticks/ticks: [0, 1, 2, 3, 4, 5, 6]
+    yticks/labels: ['0', '1', '2', '3', '4', '5', '6']
+
+    ########## ax.hist Arguments ##########
+    ax.hist/density: true
+    ax.hist/bins: 100
+    ax.hist/range: [0.0, 1.0]
+    ax.hist/edgecolor: 'none'
+    ax.hist/linewidth: 0
+    ax.hist/rasterized: true
+
+    ################ Color ##############
+    colors/mchmprthst_err: blue
+    colors/mprthst_err: blue
+    colors/mchmprt_err: blue
+    colors/nprthst_err: blue
+
+mprthst_errhist.part:
+  ref: mchmprthst_errhist.part
+  def:
+    ######## The x-Axis Parameters ########
+    xlbl/xlabel: Total Mass Error
+    xlim: [-0.02, 1.02]
+    xticks/ticks: [0, 0.2, 0.4, 0.6, 0.8, 1]
+    xticks/labels: ['0', '0.2', '0.4', '0.6', '0.8', '1']
+
+mchmprt_errhist.part:
+  ref: mchmprthst_errhist.part
+  def:
+    ######## The x-Axis Parameters ########
+    xlbl/xlabel: Bulk Mass Error
+    xlim: [-0.02, 1.02]
+    xticks/ticks: [0, 0.2, 0.4, 0.6, 0.8, 1]
+    xticks/labels: ['0', '0.2', '0.4', '0.6', '0.8', '1']
+
+nprthst_errhist.part:
+  ref: mchmprthst_errhist.part
+  def:
+    ######## The x-Axis Parameters ########
+    xlbl/xlabel: Number Error
+    xlim: [-0.01, 0.31]
+    xticks/ticks: [0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3]
+    xticks/labels: ['0', '0.05', '0.1', '0.15', '0.2', '0.25', '0.3']
+    ax.hist/range: [0.0, 0.3]
+
+    ######## The y-Axis Parameters ########
+    ylim: [0, 12]
+    ylbl/share: true
+    yticks/ticks: [0, 3, 6, 9, 12, 15]
+    yticks/labels: ['0', '3', '6', '9', '12', '15']
+
 
 ###########################################################
 #### ACSM/SMPS and Tri-Label Collective Summary Plots #####
@@ -1819,6 +1955,42 @@ frznfrac_hist1:
   colors/normal: red
 
 frznfrac_hist2/ref: frznfrac_hist1
+
+ccn_hist1.part:
+  ref: ccn_hist1
+  def:
+    ######## The y-Axis Parameters ########
+    ylim: [0, 40000]
+    yticks/ticks: [0, 10000, 20000, 30000, 40000]
+    yticks/labels: ['0', '10000', '20000', '30000', '40000']
+
+ccn_hist2.part/ref: ccn_hist1.part
+
+qs_hist.part:
+  ref: qs_hist
+  def:
+    ######## The y-Axis Parameters ########
+    ylim: [0, 40000]
+    yticks/ticks: [0, 10000, 20000, 30000, 40000]
+    yticks/labels: ['0', '10000', '20000', '30000', '40000']
+
+qa_hist.part:
+  ref: qa_hist
+  def:
+    ######## The y-Axis Parameters ########
+    ylim: [0, 40000]
+    yticks/ticks: [0, 10000, 20000, 30000, 40000]
+    yticks/labels: ['0', '10000', '20000', '30000', '40000']
+
+frznfrac_hist1.part:
+  ref: frznfrac_hist1
+  def:
+    ######## The y-Axis Parameters ########
+    ylim: [0, 40000]
+    yticks/ticks: [0, 10000, 20000, 30000, 40000]
+    yticks/labels: ['0', '10000', '20000', '30000', '40000']
+
+frznfrac_hist2.part/ref: frznfrac_hist1.part
 
 ###########################################################
 ############## Non-Conditional Scatter Plots ##############
@@ -2274,6 +2446,24 @@ paper.intro.diag.m_chmprthst:
     leg/bbox_to_anchor: [0.5, 0.01]
     leg/edgecolor: black
     leg/ncol: 8
+
+
+paper.intro.data.part.bar/ref: paper.intro.data.bar
+paper.intro.data.part.bar/ybound/def: [0, null]
+paper.intro.diag.part.m_chmprthst/ref: paper.intro.diag.m_chmprthst
+paper.intro.diag.part.m_chmprthst/ybound/def: [0, null]
+paper.intro.diag.part.m_prthst/ref: paper.intro.diag.m_prthst
+paper.intro.diag.part.m_prthst/ybound/def: [0, null]
+paper.intro.diag.part.n_prthst/ref: n_prthst
+paper.intro.diag.part.ccn_cdf/ref: ccn_cdf
+paper.intro.diag.part.frznfrac_tmp/ref: frznfrac_tmp
+paper.intro.diag.part.qs_pop/ref: qs_pop
+paper.intro.diag.part.qs_pop/pop: [leg]
+paper.intro.diag.part.qa_pop/ref: qa_pop
+paper.intro.diag.part.qscs_prt/ref: qscs_prt
+paper.intro.diag.part.qacs_prt/ref: qacs_prt
+paper.intro.diag.part.m_chmhst1/ref: m_chmhst1
+paper.intro.diag.part.m_chmhst2/ref: m_chmhst2
 
 #######################################
 ###### Example Diagnostic Figure ######
@@ -3133,7 +3323,7 @@ qa_prtsct:
 ###########################################################
 
 expspec:
-  trad:
+  trad.hist:
     fpidx:
       gen/mlp: 11_mlphist.0.0
       gen/cnn: 12_cnnhist.0.0
@@ -3145,6 +3335,41 @@ expspec:
     fig/dir: '{workdir}'
     n_seeds: 12
     nicknm/frmla: null
+  
+  trad.part.gen:
+    fpidx:
+      # lokl/mlp: 01_mlpprtlokl.0.0
+      mlkl/mlp: 01_mlpprtmlkl.0.0
+      mhkl/mlp: 01_mlpprtmhkl.0.0
+      hikl/mlp: 01_mlpprthikl.0.0
+    vrnts:
+      train: [orig, rcnst]
+      test: [orig, rcnst]
+      normal: [genr, gaus]
+    eid: identity
+    ycols: ['m_chmprthst', 'n_prthst', 'ccn_cdf', 'qs_pop', 'qa_pop', 'frznfrac_tmp']
+    shapever: recent
+    n_epoch: 
+      trad.part.gen.lokl:mlp: 5
+      trad.part.gen.mlkl:mlp: 5
+      trad.part.gen.mhkl:mlp: 5
+      trad.part.gen.hikl:mlp: 4
+    resdir: ./22_vaepart/results
+    fig/dir: '{suppdir}/10_vaepart'
+    fig/idx/intro.data: 1
+    fig/idx/intro.diag: 5
+    fig/idx/diag: 9
+    fig/idx/genr: 17
+    fig/idx/smry: 21
+    fig/idx/gencal: 25
+    fig/idx/mds: 29
+    fig/idx/mnsmry: 33
+    n_seeds: 10
+    n_snrt: 5000
+    n_diagsamps: 20
+    i_sampintro: null # 379 #208
+    nicknm/frmla: null
+
   
   cond.mqnt.gnrc:
     fpidx:
