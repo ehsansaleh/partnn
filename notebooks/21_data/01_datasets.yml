@@ -1,0 +1,699 @@
+###################################################################################################
+############################# The BlueWaters Chi Sampling Simulation ##############################
+###################################################################################################
+
+###########################################################
+##### Variant III: Full Chemicals and Diameter Range ######
+###########################################################
+# The number of time-steps in the simulation
+03_bwchi/n_t: 25
+# The simulation grid size
+03_bwchi/n_grid: [1000, 1, 1]
+# The input datas relative directory
+03_bwchi/inp/data_tree: 01_bwchisamp
+# The function for obtaining the input `nc_path` and `snridx_nc`
+03_bwchi/inp/nc_pathfn: get_bwncpath
+# The relative path of the output
+03_bwchi/out/h5_tree: 06_prtcls/01_bwchisamp
+# The maximum number of netCDF open files at a time
+03_bwchi/n_maxfp: 1
+# The number of resampled particles within each population
+03_bwchi/n_part: 100000
+# The chemical species to keep in the particle data
+03_bwchi/chem_species: all
+# The mini-batch size of aerosol populations for loading the particle data from the disk for diagnostics computations
+03_bwchi/diag/n_mb: 100
+# The diagnostic hyper-parameters
+03_bwchi/diag/hparams/ref: diag/hparams
+# The number of particles in the diagnostic input data
+03_bwchi/diag/hparams/aerocst/n_part: n_part
+# The chemical species names for selecting dust, bc, and so on in opticals and inc nucleation.
+03_bwchi/diag/hparams/aerocst/chem_species: chem_species
+# The mapping of chemical species (str) to physical density values (float, kg/m^3)
+03_bwchi/diag/hparams/aerocst/chem2rho/ref: chem2rho_bwchi
+# The mapping of chemical species (str) to physical density values (float, kg/m^3)
+03_bwchi/diag/hparams/aerocst/chem2kappa/ref: chem2kappa_bwchi
+# The mapping of wave length id (str) to wave length
+03_bwchi/diag/hparams/aerocst/wvid2len/ref: wvid2len
+# The mapping of chemical species (str) to refractive index values (complex) for optical calculations
+03_bwchi/diag/hparams/aerocst/chem2refr/ref: chem2refr_bwchi
+# The output file subtitle
+03_bwchi/subtitle: >
+    This file contains the chemical mass and number concentrations 
+    from the PartMC run on the Bluewaters with the chi sampling. All 
+    chemical species and the full range of diameters were included 
+    in this data.
+
+###########################################################
+#### Variant IV: Reduced Chemicals and Diameter Range #####
+###########################################################
+04_bwchi:
+  ref: 03_bwchi
+  def:
+    # The relative path of the output
+    out/h5_tree: 06_prtcls/02_bwchisamp
+    # The chemical species to keep in the particle data
+    chem_species: SO4,NO3,Cl,NH4,ARO1,ARO2,ALK1,OLE1,API1,Na,OIN,OC,BC,MOC,H2O
+    # The number of diameter histogram bins
+    diag/hparams/aerohst/n_bins: 19
+    # The lower range of the diamter histogram
+    diag/hparams/aerohst/diam_low: 10**-8.75
+    # The output file subtitle
+    subtitle: 
+        This file contains the chemical mass and number concentrations 
+        from the PartMC run on the Bluewaters with the chi sampling. A 
+        reduced subset of chemical species and range of diameters were 
+        included in this data.
+
+###########################################################
+########## Variant V: Temporary Dry Run Settings ##########
+###########################################################
+05_bwchi:
+  ref: 04_bwchi
+  def:
+    # The number of resampled particles within each population
+    n_part: 1000
+
+###################################################################################################
+###################################### The CARES Simulation #######################################
+###################################################################################################
+
+###########################################################
+##### Variant III: Full Chemicals and Diameter Range ######
+###########################################################
+# The number of time-steps in the simulation
+03_cares/n_t: 9
+# The simulation grid size
+03_cares/n_grid: [169, 159, 39]
+# The input datas relative directory
+03_cares/inp/data_tree: 03_caressamp
+# The function for obtaining the input `nc_path` and `snridx_nc`
+03_cares/inp/nc_pathfn: get_caresncpath
+# The relative path of the output
+03_cares/out/h5_tree: 06_prtcls/03_caressamp
+# The maximum number of netCDF open files at a time
+03_cares/n_maxfp: 10
+# The number of resampled particles within each population (needs to be specified later)
+03_cares/n_part: null
+# The chemical species to keep in the particle data
+03_cares/chem_species: all
+# The mini-batch size of aerosol populations for loading the particle data from the disk for diagnostics computations
+03_cares/diag/n_mb: 100
+# The diagnostic hyper-parameters
+03_cares/diag/hparams/ref: diag/hparams
+# The number of particles in the diagnostic input data
+03_cares/diag/hparams/aerocst/n_part: n_part
+# The chemical species names for selecting dust, bc, and so on in opticals and inc nucleation
+03_cares/diag/hparams/aerocst/chem_species: chem_species
+# The mapping of chemical species (str) to physical density values (float, kg/m^3)
+03_cares/diag/hparams/aerocst/chem2rho/ref: chem2rho_cares
+# The mapping of chemical species (str) to physical density values (float, kg/m^3)
+03_cares/diag/hparams/aerocst/chem2kappa/ref: chem2kappa_cares
+# The mapping of wave length id (str) to wave length
+03_cares/diag/hparams/aerocst/wvid2len/ref: wvid2len
+# The mapping of chemical species (str) to refractive index values (complex) for optical calculations
+03_cares/diag/hparams/aerocst/chem2refr/ref: chem2refr_cares
+# The output file subtitle
+03_cares/subtitle: >
+    This file contains the chemical and number concentrations 
+    from the PartMC run on the CARES dataset. All chemical 
+    species and the full range of diameters were included in 
+    this data.
+
+###########################################################
+##### Variant II: Reduced Chemicals and Diameter Range ####
+###########################################################
+04_cares:
+  ref: 03_cares
+  def:
+    # The relative path of the output
+    out/h5_tree: 06_prtcls/04_caressamp
+    # The number of resampled particles within each population
+    n_part: null
+    # The chemical species to keep in the particle data
+    chem_species: SO4,Cl,NH4,API1,Na,OC,BC
+    # The number of diameter histogram bins
+    diag/hparams/aerohst/n_bins: 14
+    # The lower range of the diamter histogram
+    diag/hparams/aerohst/diam_low: 10**-8.25
+    # The higher range of the diamter histogram
+    diag/hparams/aerohst/diam_high: 10**-4.75
+    # The output file subtitle
+    subtitle: >
+        This file contains the chemical and number concentrations 
+        from the PartMC run on the CARES dataset. A reduced subset 
+        of chemical species and range of diameters were included in 
+        this data.
+
+###################################################################################################
+################################## Physical Constant Definitions ##################################
+###################################################################################################
+
+###########################################################
+##### The chemical densities in the scenarios library #####
+###########################################################
+chem2rho_bwchi:
+  SO4: 1800.0
+  NO3: 1800.0
+  Cl: 2200.0
+  NH4: 1800.0
+  MSA: 1800.0
+  ARO1: 1400.0
+  ARO2: 1400.0
+  ALK1: 1400.0
+  OLE1: 1400.0
+  API1: 1400.0
+  API2: 1400.0
+  LIM1: 1400.0
+  LIM2: 1400.0
+  CO3: 2600.0
+  Na: 2200.0
+  Ca: 2600.0
+  OIN: 2600.0
+  OC: 1000.0
+  BC: 1800.0
+  MOC: 1000.0
+  H2O: 1000.0
+
+###########################################################
+### The chemical kappa values in the scenarios library ####
+###########################################################
+chem2kappa_bwchi:
+  SO4: 0.65
+  NO3: 0.65
+  Cl: 0.53
+  NH4: 0.65
+  MSA: 0.53
+  ARO1: 0.1
+  ARO2: 0.1
+  ALK1: 0.1
+  OLE1: 0.1
+  API1: 0.1
+  API2: 0.1
+  LIM1: 0.1
+  LIM2: 0.1
+  CO3: 0.53
+  Na: 0.53
+  Ca: 0.53
+  OIN: 0.001
+  OC: 0.001
+  BC: 0.0
+  MOC: 0.001
+  H2O: 0.0
+
+###########################################################
+## The optical wave-lengths and water's refraction index ##
+###########################################################
+wvid2len:
+  300nm: 300e-9
+  400nm: 400e-9
+  550nm: 550e-9
+  600nm: 600e-9
+  1000nm: 1e-6
+
+###########################################################
+## The chemical refractive indecis of scenarios library ###
+###########################################################
+chem2refr_bwchitmplt:
+  SO4: (1.5+0j)
+  NO3: (1.5+0j)
+  Cl: (1.5+0j)
+  NH4: (1.5+0j)
+  MSA: (1.43+0j)
+  ARO1: (1.45+0j)
+  ARO2: (1.45+0j)
+  ALK1: (1.45+0j)
+  OLE1: (1.45+0j)
+  API1: (1.45+0j)
+  API2: (1.45+0j)
+  LIM1: (1.45+0j)
+  LIM2: (1.45+0j)
+  CO3: (1.5+0j)
+  Na: (1.5+0j)
+  Ca: (1.5+0j)
+  OIN: (1.55+0.006j)
+  OC: (1.45+0j)
+  BC: (1.82+0.74j)
+  MOC: (1.5+0j)
+  H2O: null
+
+chem2refr_bwchi:
+  300nm/ref: chem2refr_bwchitmplt
+  300nm/H2O/def: (1.35+1.524e-08j)
+
+  400nm/ref: chem2refr_bwchitmplt
+  400nm/H2O/def: (1.34+2.494e-09j)
+
+  550nm/ref: chem2refr_bwchitmplt
+  550nm/H2O/def: (1.33+0j)
+
+  600nm/ref: chem2refr_bwchitmplt
+  600nm/H2O/def: (1.33+1.638e-09j)
+
+  1000nm/ref: chem2refr_bwchitmplt
+  1000nm/H2O/def: (1.33+3.128e-06j)
+
+###########################################################
+####### The chemical densities in the CARES library #######
+###########################################################
+chem2rho_cares:
+  SO4: 1770.0
+  NO3: 1770.0
+  Cl: 1900.0
+  NH4: 1770.0
+  MSA: 1800.0
+  ARO1: 1400.0
+  ARO2: 1400.0
+  ALK1: 1400.0
+  OLE1: 1400.0
+  API1: 1000.0
+  API2: 1400.0
+  LIM1: 1400.0
+  LIM2: 1400.0
+  CO3: 2600.0
+  Na: 1900.0
+  Ca: 2600.0
+  OIN: 2600.0
+  OC: 1000.0
+  BC: 1700.0
+  H2O: 1000.0
+
+###########################################################
+##### The chemical kappa values in the CARES library ######
+###########################################################
+chem2kappa_cares:
+  SO4: 0.65
+  NO3: 0.65
+  Cl: 1.28
+  NH4: 0.65
+  MSA: 0.53
+  ARO1: 0.1
+  ARO2: 0.1
+  ALK1: 0.1
+  OLE1: 0.1
+  API1: 0.1
+  API2: 0.1
+  LIM1: 0.1
+  LIM2: 0.1
+  CO3: 0.53
+  Na: 1.28
+  Ca: 0.53
+  OIN: 0.1
+  OC: 0.001
+  BC: 0.0
+  H2O: 0.0
+
+###########################################################
+#### The chemical refractive indecis of CARES library #####
+###########################################################
+chem2refr_carestmplt/ref: chem2refr_bwchitmplt 
+chem2refr_carestmplt/pop: MOC
+
+chem2refr_cares:
+  300nm/ref: chem2refr_carestmplt
+  300nm/H2O/def: (1.35+1.524e-08j)
+
+  400nm/ref: chem2refr_carestmplt
+  400nm/H2O/def: (1.34+2.494e-09j)
+
+  550nm/ref: chem2refr_carestmplt
+  550nm/H2O/def: (1.33+0j)
+
+  600nm/ref: chem2refr_carestmplt
+  600nm/H2O/def: (1.33+1.638e-09j)
+
+  1000nm/ref: chem2refr_carestmplt
+  1000nm/H2O/def: (1.33+3.128e-06j)
+
+###################################################################################################
+######################################### Data Attributes #########################################
+###################################################################################################
+
+###########################################################
+################ Particle Data Attributes #################
+###########################################################
+attrs/prt:
+  title: The full particle data and related diagnostics
+  subtitle: subtitle
+
+  # The scenario flattened index of each population
+  i_snr/dtype: int64
+  i_snr/shape/str: [n_pop]
+  i_snr/shape/val: '[n_mypop]'
+  i_snr/chunks/val: '[100]'
+  i_snr/units: one
+  i_snr/long_name: included_snr_idxs_in_my_rank
+  i_snr/desc: The scenario flattened index of each population in my rank
+
+  # The scenario x index of each population
+  i_x/dtype: int64
+  i_x/shape/str: [n_pop]
+  i_x/shape/val: '[n_mypop]'
+  i_x/chunks/val: '[100]'
+  i_x/units: one
+  i_x/long_name: included_x_grid_idxs_in_my_rank
+  i_x/desc: The scenario x index of each population in my rank
+
+  # The scenario y index of each population
+  i_y/dtype: int64
+  i_y/shape/str: [n_pop]
+  i_y/shape/val: '[n_mypop]'
+  i_y/chunks/val: '[100]'
+  i_y/units: one
+  i_y/long_name: included_y_grid_idxs_in_my_rank
+  i_y/desc: The scenario y index of each population in my rank
+
+  # The scenario z index of each population
+  i_z/dtype: int64
+  i_z/shape/str: [n_pop]
+  i_z/shape/val: '[n_mypop]'
+  i_z/chunks/val: '[100]'
+  i_z/units: one
+  i_z/long_name: included_z_grid_idxs_in_my_rank
+  i_z/desc: The scenario z index of each population in my rank
+
+  # The time flattened index of each population
+  i_t/dtype: int64
+  i_t/shape/str: [n_pop]
+  i_t/shape/val: '[n_mypop]'
+  i_t/chunks/val: '[100]'
+  i_t/units: one
+  i_t/long_name: included_snr_idxs_in_my_rank
+  i_t/desc: The scenario flattened index of each population in my rank
+
+  # The speciated particle mass data
+  m_prtchm/dtype: float64
+  m_prtchm/shape/str: [n_pop, n_part, n_chem]
+  m_prtchm/shape/val: '[n_mypop, n_part, n_chem]'
+  m_prtchm/chunks/val: '[1, n_part, n_chem]'
+  m_prtchm/units: kg
+  m_prtchm/long_name: speciated_particle_mass
+  m_prtchm/desc: The mass of each speciated particle in the simulation
+  
+  # The particle number concentration data
+  n_prt/dtype: float64
+  n_prt/shape/str: [n_pop, n_part, one]
+  n_prt/shape/val: '[n_mypop, n_part, 1]'
+  n_prt/chunks/val: '[1, n_part, 1]'
+  n_prt/units: none
+  n_prt/long_name: particle_number_concentration
+  n_prt/desc: The number concentration of each particle in the simulation
+
+  # The particle weight data
+  w_prt/dtype: float64
+  w_prt/shape/str: [n_pop, n_part, one]
+  w_prt/shape/val: '[n_mypop, n_part, 1]'
+  w_prt/chunks/val: '[1, n_part, 1]'
+  w_prt/units: none
+  w_prt/long_name: particle_number_concentration
+  w_prt/desc: The weight of each particle in the simulation
+
+  # The total particle number concentration data
+  n_tot/dtype: float64
+  n_tot/shape/str: [n_pop, one, one]
+  n_tot/shape/val: '[n_mypop, 1, 1]'
+  n_tot/chunks/val: '[1, 1, 1]'
+  n_tot/units: none
+  n_tot/long_name: population_total_number_concentration
+  n_tot/desc: The total number of particle concentrations in each population 
+
+###########################################################
+############# Histogram Diagnostic Attributes #############
+###########################################################
+attrs/hst:
+  # The range of the diamter histogram
+  diam_low/dtype: float64
+  diam_low/shape/str: [one]
+  diam_low/shape/val: "[1]"
+  diam_low/chunks/val: "[1]"
+  diam_low/units: m
+  diam_low/long_name: diameter_lower_bound
+  diam_low/desc: The lower bound of the diameter histogram bins
+
+  diam_high/dtype: float64
+  diam_high/shape/str: [one]
+  diam_high/shape/val: "[1]"
+  diam_high/chunks/val: "[1]"
+  diam_high/units: m
+  diam_high/long_name: diameter_upper_bound
+  diam_high/desc: The upper bound of the diameter histogram bins
+
+  # The diameter logarithmic base
+  diam_logbase/dtype: float64
+  diam_logbase/shape/str: [one]
+  diam_logbase/shape/val: "[1]"
+  diam_logbase/chunks/val: "[1]"
+  diam_logbase/units: none
+  diam_logbase/long_name: diameter_log_base
+  diam_logbase/desc: The logarithmic base for the diameter histogram bins
+
+  # The chemical density values in kg / m^3.
+  chem_rho/dtype: float64
+  chem_rho/shape/str: [n_chem]
+  chem_rho/shape/val: "[n_chem]"
+  chem_rho/chunks/val: "[n_chem]"
+  chem_rho/units: kg/m^3
+  chem_rho/long_name: chem_density
+  chem_rho/desc: The chemical density values in kg / m^3
+
+  # The speciated mass distribution density values in kg / m^3
+  m_chmprthst/dtype: float64
+  m_chmprthst/shape/str: [n_pop, n_chem, n_bins]
+  m_chmprthst/shape/val: "[n_mypop, n_chem, n_bins]"
+  m_chmprthst/chunks/val: "[1, n_chem, n_bins]"
+  m_chmprthst/units: kg/m^3
+  m_chmprthst/long_name: speciated_mass_dist
+  m_chmprthst/desc: The speciated mass distribution density values in kg / m^3
+
+  # The total mass distribution density values in kg / m^3
+  m_prthst/dtype: float64
+  m_prthst/shape/str: [n_pop, one, n_bins]
+  m_prthst/shape/val: "[n_mypop, 1, n_bins]"
+  m_prthst/chunks/val: "[1, 1, n_bins]"
+  m_prthst/units: kg/m^3
+  m_prthst/long_name: total_mass_distribution
+  m_prthst/desc: The total mass distribution in kg / m^3
+
+  # The number distribution density values in \# / m^3
+  n_prthst/dtype: float64
+  n_prthst/shape/str: [n_pop, one, n_bins]
+  n_prthst/shape/val: "[n_mypop, 1, n_bins]"
+  n_prthst/chunks/val: "[1, 1, n_bins]"
+  n_prthst/units: \#/m^3
+  n_prthst/long_name: number_distribution
+  n_prthst/desc: The number distribution in \# / m^3
+
+###########################################################
+################ CCN Diagnostic Attributes ################
+###########################################################
+attrs/ccn:
+  # The chemical kappa values for CCN calculations
+  chem_kappa/dtype: float64
+  chem_kappa/shape/str: [n_chem]
+  chem_kappa/shape/val: "[n_chem]"
+  chem_kappa/chunks/val: "[n_chem]"
+  chem_kappa/units: none
+  chem_kappa/long_name: chem_kappa
+  chem_kappa/desc: The chemical kappa values for CCN calculations
+
+  # The CCN fraction spectrum
+  ccn_cdf/dtype: float64
+  ccn_cdf/shape/str: [n_pop, one, n_epshist]
+  ccn_cdf/shape/val: "[n_mypop, 1, n_epshist]"
+  ccn_cdf/chunks/val: "[1, 1, n_epshist]"
+  ccn_cdf/units: none
+  ccn_cdf/long_name: ccn_cdf
+  ccn_cdf/desc: The CCN fraction spectrum
+
+###########################################################
+############## Optical Diagnostic Attributes ##############
+###########################################################
+attrs/opt:
+  # The wave lengths for optical property calculations
+  wave_len/dtype: float64
+  wave_len/shape/str: [n_wave]
+  wave_len/shape/val: "[n_wave]"
+  wave_len/chunks/val: "[n_wave]"
+  wave_len/units: m
+  wave_len/long_name: wave_length
+  wave_len/desc: The wave lengths for optical property calculations
+
+  # The real chemical refraction index values for optical property calculations
+  chem_refr_real/dtype: float64
+  chem_refr_real/shape/str: [n_wave, n_chem]
+  chem_refr_real/shape/val: "[n_wave, n_chem]"
+  chem_refr_real/chunks/val: "[n_wave, n_chem]"
+  chem_refr_real/units: none
+  chem_refr_real/long_name: chem_refraction_real
+  chem_refr_real/desc: The real chemical refraction index values for optical property calculations
+
+  # The imaginary chemical refraction index values for optical property calculations
+  chem_refr_imag/dtype: float64
+  chem_refr_imag/shape/str: [n_wave, n_chem]
+  chem_refr_imag/shape/val: "[n_wave, n_chem]"
+  chem_refr_imag/chunks/val: "[n_wave, n_chem]"
+  chem_refr_imag/units: none
+  chem_refr_imag/long_name: chem_refraction_imag
+  chem_refr_imag/desc: The imaginary chemical refraction index values for optical property calculations
+
+  # The scattering Q-efficiency of the aerosol population
+  qs_pop/dtype: float64
+  qs_pop/shape/str: [n_pop, one, n_wave]
+  qs_pop/shape/val: "[n_mypop, 1, n_wave]"
+  qs_pop/chunks/val: "[1, 1, n_wave]"
+  qs_pop/units: none
+  qs_pop/long_name: scat_eff_pop
+  qs_pop/desc: The scattering Q-efficiency of the aerosol population
+
+  # The scattering Q-efficiency of each of the particles
+  qs_prt/dtype: float64
+  qs_prt/shape/str: [n_pop, n_part, n_wave]
+  qs_prt/shape/val: "[n_mypop, n_part, n_wave]"
+  qs_prt/chunks/val: "[1, n_part, n_wave]"
+  qs_prt/units: none
+  qs_prt/long_name: scat_eff_prtcls
+  qs_prt/desc: The scattering Q-efficiency of each of the particles
+
+  # The scattering cross-section efficiency of each of the particles
+  qscs_prt/dtype: float64
+  qscs_prt/shape/str: [n_pop, n_part, n_wave]
+  qscs_prt/shape/val: "[n_mypop, n_part, n_wave]"
+  qscs_prt/chunks/val: "[1, n_part, n_wave]"
+  qscs_prt/units: none
+  qscs_prt/long_name: scat_cross_eff_prtcls
+  qscs_prt/desc: The scattering cross-section efficiency of each of the particles
+
+  # The absorption Q-efficiency of the aerosol population
+  qa_pop/dtype: float64
+  qa_pop/shape/str: [n_pop, one, n_wave]
+  qa_pop/shape/val: "[n_mypop, 1, n_wave]"
+  qa_pop/chunks/val: "[1, 1, n_wave]"
+  qa_pop/units: none
+  qa_pop/long_name: abs_eff_pop
+  qa_pop/desc: The absorption Q-efficiency of the aerosol population
+
+  # The absorption Q-efficiency of each of the particles
+  qa_prt/dtype: float64
+  qa_prt/shape/str: [n_pop, n_part, n_wave]
+  qa_prt/shape/val: "[n_mypop, n_part, n_wave]"
+  qa_prt/chunks/val: "[1, n_part, n_wave]"
+  qa_prt/units: none
+  qa_prt/long_name: abs_eff_prtcls
+  qa_prt/desc: The absorption Q-efficiency of each of the particles
+
+  # The absorption cross-section efficiency of each of the particles
+  qacs_prt/dtype: float64
+  qacs_prt/shape/str: [n_pop, n_part, n_wave]
+  qacs_prt/shape/val: "[n_mypop, n_part, n_wave]"
+  qacs_prt/chunks/val: "[1, n_part, n_wave]"
+  qacs_prt/units: none
+  qacs_prt/long_name: abs_cross_eff_prtcls
+  qacs_prt/desc: The absorption cross-section efficiency of each of the particles
+
+###########################################################
+###### Ice Nucleation Particle Diagnostic Attributes ######
+###########################################################
+attrs/inp:
+  # The frozen fraction spectrum at various temperatures
+  frznfrac_tmp/dtype: float64
+  frznfrac_tmp/shape/str: [n_pop, one, n_tmprtr]
+  frznfrac_tmp/shape/val: "[n_mypop, 1, n_tmprtr]"
+  frznfrac_tmp/chunks/val: "[1, 1, n_tmprtr]"
+  frznfrac_tmp/units: none
+  frznfrac_tmp/long_name: frzn_fractn_tmprtr
+  frznfrac_tmp/desc: The frozen fraction spectrum at various temperatures
+
+  # The log frozen fraction spectrum at various temperatures
+  logfrznfrac_tmp/dtype: float64
+  logfrznfrac_tmp/shape/str: [n_pop, one, n_tmprtr]
+  logfrznfrac_tmp/shape/val: "[n_mypop, 1, n_tmprtr]"
+  logfrznfrac_tmp/chunks/val: "[1, 1, n_tmprtr]"
+  logfrznfrac_tmp/units: none
+  logfrznfrac_tmp/long_name: log_frzn_fractn_tmprtr
+  logfrznfrac_tmp/desc: The log frozen fraction spectrum at various temperatures
+
+  # The dust surface area of each of the particles
+  surf_oin/dtype: float64
+  surf_oin/shape/str: [n_pop, n_part, one]
+  surf_oin/shape/val: "[n_mypop, n_part, 1]"
+  surf_oin/chunks/val: "[1, n_part, 1]"
+  surf_oin/units: m^2
+  surf_oin/long_name: surface_area_oin
+  surf_oin/desc: The dust surface area of each of the particles
+
+  # The black carbon surface area of each of the particles
+  surf_bc/dtype: float64
+  surf_bc/shape/str: [n_pop, n_part, one]
+  surf_bc/shape/val: "[n_mypop, n_part, 1]"
+  surf_bc/chunks/val: "[1, n_part, 1]"
+  surf_bc/units: m^2
+  surf_bc/long_name: surface_area_bc
+  surf_bc/desc: The black carbon surface area of each of the particles
+
+###################################################################################################
+################################### Diagnostics Hyperparameters ###################################
+###################################################################################################
+# The global input data type.
+diag/hparams/input/type: prt
+# The physical processes to be computationally measured
+diag/hparams/measures: [m_chmprthst, m_prthst, n_prthst, ccn_cdf, qs_pop, qs_prt, qscs_prt, 
+  qa_pop, qa_prt, qacs_prt, frznfrac_tmp, logfrznfrac_tmp]
+# The number of diameter histogram bins
+diag/hparams/aerohst/n_bins: 20
+# The lower range of the diamter histogram
+diag/hparams/aerohst/diam_low: 1e-9
+# The higher range of the diamter histogram
+diag/hparams/aerohst/diam_high: 1e-4
+# The evaluation mini-batch size for computing the metric
+diag/hparams/aerohst/eval/bs: 512
+
+# The minimum epsilon value for the CDF interval.
+diag/hparams/aeroccn/eps_histmin: 1e-3
+# The maximum epsilon value for the CDF interval.
+diag/hparams/aeroccn/eps_histmax: 1e-1
+# The number of bins to divide the log-epsilon interval into.
+diag/hparams/aeroccn/n_epshist: 100
+# The temperature used to compute the critical relative humidity values; 
+# the `A` factor in the computation relies on this temperature.
+diag/hparams/aeroccn/tmprtr_sclr: 287.0
+# The number of newtonian root finding iterations to compute the critical diameters.
+diag/hparams/aeroccn/void_kappa: 0.0
+# The number of newtonian root finding iterations to compute the critical diameters.
+diag/hparams/aeroccn/n_rfiters: 150
+# The relative update size stopping threshold for the newtonian root finder.
+diag/hparams/aeroccn/e_rfiters: 1e-10
+# The evaluation mini-batch size for computing the metric
+diag/hparams/aeroccn/eval/bs: 512
+# The input data type for the ccn calculations. One of prt, hst, or null.
+diag/hparams/aeroccn/input/type: null
+# Whether to be strict about the newton root finding convergence
+diag/hparams/aeroccn/strict: true
+
+# The optical wave length for measuring the optical efficiency properties.
+diag/hparams/aeroopt/wave_length: [300e-9, 400e-9, 500e-9, 600e-9, 700e-9, 800e-9, 900e-9, 1000e-9]
+# The number of iterations needed for the mie sequence summations to converge.
+diag/hparams/aeroopt/n_max: 220
+# The optical refraction coefficient for particles with zero volume.
+diag/hparams/aeroopt/void_refr: "1.5+0.0j"
+# Whether the output shapes should be [n_part, n_wave] (true) or [n_wave, n_part] (false)
+diag/hparams/aeroopt/trnsps: true
+# The evaluation mini-batch size for computing the metric
+diag/hparams/aeroopt/eval/bs: 64
+# The input data type for the opt calculations. One of prt, hst, or null.
+diag/hparams/aeroopt/input/type: null
+
+# The lower end of the the temperature range in Celsius.
+# Usually, this value should be around -40 degrees.
+diag/hparams/aeroinp/tmprtr_inpmin: -40.0
+# The higher end of the the temperature range in Celsius.
+# Usually, this value should be around 0 degrees.
+diag/hparams/aeroinp/tmprtr_inpmax: 0.0
+# The number of temperature bins.
+diag/hparams/aeroinp/n_tmprtr: 100
+# The evaluation mini-batch size for computing the metric
+diag/hparams/aeroinp/eval/bs: 512
+# The input data type for the inp calculations. One of prt, hst, or null.
+diag/hparams/aeroinp/input/type: null
+# Whether the output shapes should be [n_part, 1] (true) or [1, n_part] (false)
+diag/hparams/aeroinp/trnsps: true
+  
