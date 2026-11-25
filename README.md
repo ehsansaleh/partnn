@@ -5,7 +5,7 @@ This repository contains code supporting four papers:
 1. **Compact Aerosol Size-Composition Representations Preserving CCN, Optical, and Ice Nucleation Properties**
 2. **Reconstructing the Aerosol State from Partial Observations with Generative Modeling**
 3. **AeroSEL: A Linear Set Embedding for Aerosol Populations**
-4. **Advecting Latent Representations of Particle-Resolved Aerosol: Transporting Aerosol Mixing State in Three Dimensions with a Learned Latent Space**
+4. **WRF-AeroMELD: Advecting a Learned Representation of Particle-Resolved Aerosol**
 
 The code trains and evaluates neural representations of aerosol size-composition states, including histogram-based VAEs, conditional VAEs, and particle/set-based embeddings.
 
@@ -83,7 +83,7 @@ python -m partnn.vaepart -c 03_prtcls/02_mlpprt -d cpu --dry-run
 
 Full AeroSEL runs use the same entry point without `--dry-run`. The plotting notebook reads the VAE particle outputs through the `trad.part.gen` group in `notebooks/08_plotting/37_aerompl.yml`; those plots are written under `notebooks/08_plotting/supplement/10_vaepart`.
 
-## Advecting Latent Representations of Particle-Resolved Aerosol
+## WRF-AeroMELD: Advecting a Learned Representation of Particle-Resolved Aerosol
 
 This paper uses this repository only to build its training data, the particle dataset of the AeroSEL paper, from the raw PartMC-MOSAIC scenario library (doi:10.13012/B2IDB-2774261_V1). The scripts are in `dataset_build` (see `dataset_build/README.md`), with the data family configuration in `notebooks/21_data/01_datasets.yml`. They only add files and do not change the code used by the other papers. The paper's models, transport, comparisons and figures are in https://github.com/compdyn/aeromeld-wrf-advection.
 
